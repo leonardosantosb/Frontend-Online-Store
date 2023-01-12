@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { getCategories } from '../services/api';
 
 // class Categories extends React.Component {
@@ -25,7 +26,7 @@ class Categories extends React.Component {
     this.state = {
       categories: [],
     };
-    // this.getCategories = this.getCategories.bind(this);
+    this.getCategoryId = this.getCategoryId.bind(this);
   }
 
   async componentDidMount() {
@@ -35,15 +36,31 @@ class Categories extends React.Component {
     });
   }
 
+  async getCategoryId({ target }) {
+    const { value } = target;
+    console.log(value);
+    return value;
+  }
+
   render() {
     const { categories } = this.state;
+    const { childToParent } = this.props;
     return (
       <div>
         <h2>Categories</h2>
         <ul>
           {categories.map((category) => (
-            <li key={ category.id }>
-              <button type="button" data-testid="category">{category.name}</button>
+            <li
+              key={ category.id }
+            >
+              <button
+                type="button"
+                data-testid="category"
+                onClick={ () => childToParent(getCategoryId({ target })) }
+                value={ category.id }
+              >
+                { category.name }
+              </button>
             </li>
           ))}
         </ul>
@@ -51,5 +68,9 @@ class Categories extends React.Component {
     );
   }
 }
+
+Categories.propTypes = {
+  childToParent: PropTypes.func.isRequired,
+};
 
 export default Categories;
