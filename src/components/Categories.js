@@ -52,6 +52,4 @@ class Categories extends React.Component {
   }
 }
 
-// console.log(getCategories());
-
 export default Categories;
