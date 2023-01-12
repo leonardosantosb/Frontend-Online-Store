@@ -1,11 +1,11 @@
-export const getCategories = async () => {
+const getCategories = async () => {
   const URL = 'https://api.mercadolibre.com/sites/MLB/categories';
   const response = await fetch(URL);
   const data = await response.json();
   return data;
 };
 
-export const getProductsFromCategoryAndQuery = async (categoryId, query) => {
+const getProductsFromCategoryAndQuery = async (categoryId, query) => {
   const URL_QUERY = 'https://api.mercadolibre.com/sites/MLB/search?category=$CATEGORY_ID&q=$QUERY';
   const response = await fetch(
     `${URL_QUERY}/items?category=${categoryId}&q=${query}`,
@@ -14,7 +14,9 @@ export const getProductsFromCategoryAndQuery = async (categoryId, query) => {
   return data;
 };
 
-export async function getProductById() {
+async function getProductById() {
   // Esta implementação específica não é avaliada, mas pode ajudar você 🙂
   // Atenção: essa função não deverá ser chamada na tela do carrinho de compras.
 }
+
+export default getCategories(); getProductsFromCategoryAndQuery(); getProductById();
