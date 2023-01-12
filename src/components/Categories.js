@@ -1,5 +1,5 @@
 import React from 'react';
-import getCategories from '../services/api';
+import { getCategories } from '../services/api';
 
 // class Categories extends React.Component {
 //   searchCategories = async () => {
@@ -28,9 +28,10 @@ class Categories extends React.Component {
     // this.getCategories = this.getCategories.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const categoria = await getCategories();
     this.setState({
-      categories: getCategories.name,
+      categories: categoria,
     });
   }
 
@@ -51,6 +52,6 @@ class Categories extends React.Component {
   }
 }
 
-console.log(getCategories());
+// console.log(getCategories());
 
 export default Categories;
