@@ -10,7 +10,7 @@ class ProductsListPage extends React.Component {
       produto: '',
       categoryId: '',
       productList: [],
-      didSearch: true,
+      didSearch: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
