@@ -2,24 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { getCategories } from '../services/api';
 
-// class Categories extends React.Component {
-//   searchCategories = async () => {
-//     const xablau = await getCategories();
-//     console.log(xablau);
-//     return xablau;
-//   };
-
-//   render() {
-//     const xablau = getCategories;
-//     const values = xablau.map((m) => `${m.name}`);
-//     console.log(values);
-//     return (<button type="button">
-//       {this.searchCategories.map(({ name }) => (name))}
-//     </button>
-//     );
-//   }
-// }
-
 class Categories extends React.Component {
   constructor() {
     super();
