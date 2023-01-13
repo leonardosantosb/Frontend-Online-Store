@@ -16,18 +16,6 @@ class ProductsListPage extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  async componentDidUpdate() {
-    const { produto, categoryId } = this.state;
-    const product = await getProductsFromCategoryAndQuery(categoryId, produto);
-    const productList = product.results;
-    this.setState({
-      productList,
-      didSearch: true,
-    });
-    console.log(product.results);
-    console.log(this.state);
-  }
-
   handleChange({ target }) {
     const { value } = target;
     this.setState({
@@ -36,6 +24,15 @@ class ProductsListPage extends React.Component {
   }
 
   async handleClick() {
+    const { produto } = this.state;
+    const product = await getProductsFromCategoryAndQuery('', produto);
+    const productList = product.results;
+    this.setState({
+      productList,
+      didSearch: true,
+    });
+    console.log(product.results);
+    console.log(this.state);
   }
 
   render() {
