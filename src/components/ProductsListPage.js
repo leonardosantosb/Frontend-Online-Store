@@ -73,8 +73,8 @@ class ProductsListPage extends React.Component {
           : productList.map(({ title, price, thumbnail, id }) => (
             <div key={ id }>
               <img src={ thumbnail } alt="imagem do produto" data-testid="product" />
-              <p data-testid="product">{ title }</p>
-              <p data-testid="product">{ price }</p>
+              <p>{ title }</p>
+              <p>{ price }</p>
             </div>
           ))}
       </div>
