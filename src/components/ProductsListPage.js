@@ -14,6 +14,7 @@ class ProductsListPage extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.getCategoryId = this.getCategoryId.bind(this);
   }
 
   handleChange({ target }) {
@@ -33,6 +34,19 @@ class ProductsListPage extends React.Component {
     });
     console.log(product.results);
     console.log(this.state);
+  }
+
+  async getCategoryId({ target }) {
+    const { value } = target;
+    const product = await getProductsFromCategoryAndQuery(value, '');
+    const productList = product.results;
+    this.setState({
+      productList,
+      didSearch: true,
+    });
+    console.log(product.results);
+    console.log(this.state);
+    console.log(value);
   }
 
   render() {
@@ -67,7 +81,7 @@ class ProductsListPage extends React.Component {
             Pesquisar
           </button>
         </form>
-        <Categories />
+        <Categories getCategoryId={ this.getCategoryId } />
         { !didSearch
           ? <p>Nenhum produto foi encontrado</p>
           : productList.map(({ title, price, thumbnail, id }) => (
