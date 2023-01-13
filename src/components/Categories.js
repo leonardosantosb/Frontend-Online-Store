@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { getCategories } from '../services/api';
 
 // class Categories extends React.Component {
@@ -44,7 +44,6 @@ class Categories extends React.Component {
 
   render() {
     const { categories } = this.state;
-    const { childToParent } = this.props;
     return (
       <div>
         <h2>Categories</h2>
@@ -56,7 +55,6 @@ class Categories extends React.Component {
               <button
                 type="button"
                 data-testid="category"
-                onClick={ () => childToParent(getCategoryId({ target })) }
                 value={ category.id }
               >
                 { category.name }
@@ -69,8 +67,8 @@ class Categories extends React.Component {
   }
 }
 
-Categories.propTypes = {
-  childToParent: PropTypes.func.isRequired,
-};
+// Categories.propTypes = {
+//   childToParent: PropTypes.func.isRequired,
+// };
 
 export default Categories;

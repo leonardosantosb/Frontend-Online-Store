@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import Categories from './Categories';
@@ -14,7 +14,18 @@ class ProductsListPage extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.childToParent = this.childToParent.bind(this);
+  }
+
+  async componentDidUpdate() {
+    const { produto, categoryId } = this.state;
+    const product = await getProductsFromCategoryAndQuery(categoryId, produto);
+    const productList = product.results;
+    this.setState({
+      productList,
+      didSearch: true,
+    });
+    console.log(product.results);
+    console.log(this.state);
   }
 
   handleChange({ target }) {
@@ -25,24 +36,7 @@ class ProductsListPage extends React.Component {
   }
 
   async handleClick() {
-    const { produto, categoryId } = this.state;
-    const product = await getProductsFromCategoryAndQuery(categoryId, produto);
-    if (produto.length === 0) {
-      this.setState({
-        didSearch: false,
-      });
-    }
-    this.setState({
-      productList: product.results,
-      didSearch: true,
-    });
-    console.log(this.state);
   }
-
-  childToParent = (childdata) => {
-    const [setData] = useState('');
-    setData(childdata);
-  };
 
   render() {
     const { produto, productList, didSearch } = this.state;
@@ -76,19 +70,16 @@ class ProductsListPage extends React.Component {
             Pesquisar
           </button>
         </form>
-        <Categories childToParent={ childToParent } />
+        <Categories />
         { !didSearch
           ? <p>Nenhum produto foi encontrado</p>
-          : productList.filter((product) => (
-            product.title.toLowerCase().includes(produto.toLowerCase())
-          ))
-            .map(({ title, price, thumbnail, id }) => (
-              <div key={ id }>
-                <img src={ thumbnail } alt="imagem do produto" />
-                <p>{ title }</p>
-                <p>{ price }</p>
-              </div>
-            ))}
+          : productList.map(({ title, price, thumbnail, id }) => (
+            <div key={ id }>
+              <img src={ thumbnail } alt="imagem do produto" data-testid="product" />
+              <p data-testid="product">{ title }</p>
+              <p data-testid="product">{ price }</p>
+            </div>
+          ))}
       </div>
     );
   }
