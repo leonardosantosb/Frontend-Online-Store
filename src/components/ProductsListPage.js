@@ -90,6 +90,13 @@ class ProductsListPage extends React.Component {
               </Link>
               <p>{ title }</p>
               <p>{ price }</p>
+              <button
+                onClick={ (e) => { this.addToCart(e, id); } }
+                type="button"
+                data-testid="product-add-to-cart"
+              >
+                Adicionar ao carrinho
+              </button>
             </div>
           ))}
       </div>
