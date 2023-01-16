@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { getProductsFromCategoryAndQuery } from '../services/api';
+import { getProductsFromCategoryAndQuery, getProductById } from '../services/api';
 import Categories from './Categories';
 
 class ProductsListPage extends React.Component {
@@ -48,9 +48,9 @@ class ProductsListPage extends React.Component {
     });
   }
 
-  showDetail = async () => {
+  showDetail = async (id) => {
     const { match } = this.props;
-    const product = await getDetail(match.params.id);
+    const product = await getProductById(match.params.id);
     console.log(product);
     this.setState({ produto: product });
   };
@@ -91,7 +91,7 @@ class ProductsListPage extends React.Component {
         { !didSearch
           ? <p>Nenhum produto foi encontrado</p>
           : productList.map(({ title, price, thumbnail, id }) => (
-            <div showDetail={ this.showDetail } key={ id }>
+            <div showDetail={ this.showDetail(id) } key={ id }>
               <Link to={ `/card/:${id}` }>
                 <img
                   src={ thumbnail }
