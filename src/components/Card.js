@@ -16,7 +16,6 @@ class Card extends Component {
 
   async componentDidMount() {
     const { match: { params: { id } } } = this.props;
-    console.log(id);
     const product = await getProductById(id);
     const { title, price, thumbnail } = product;
     this.setState({
@@ -32,7 +31,7 @@ class Card extends Component {
       <div>
         <h1 data-testid="product-detail-name">{ name }</h1>
         <img data-testid="product-detail-image" alt="imagem do produto" src={ image } />
-        <h2 data-testid="product-detail-price">{ preço }</h2>
+        <h2 data-testid="product-detail-price">{ `R$${preço}` }</h2>
         <button type="button">
           <Link data-testid="shopping-cart-button" to="/shoppingCart">Carrinho</Link>
         </button>
