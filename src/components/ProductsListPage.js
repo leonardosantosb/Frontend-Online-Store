@@ -1,9 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import Categories from './Categories';
-import PropTypes from 'prop-types';
-
 
 class ProductsListPage extends React.Component {
   constructor(props) {
