@@ -8,13 +8,16 @@ class ProductsListPage extends React.Component {
     super(props);
     this.state = {
       produto: '',
-      categoryId: '',
       productList: [],
       didSearch: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.getCategoryId = this.getCategoryId.bind(this);
+  }
+
+  componentDidMount() {
+    this.showDetail();
   }
 
   handleChange({ target }) {
@@ -32,8 +35,6 @@ class ProductsListPage extends React.Component {
       productList,
       didSearch: true,
     });
-    console.log(product.results);
-    console.log(this.state);
   }
 
   async getCategoryId({ target }) {
@@ -44,10 +45,14 @@ class ProductsListPage extends React.Component {
       productList,
       didSearch: true,
     });
-    console.log(product.results);
-    console.log(this.state);
-    console.log(value);
   }
+
+  showDetail = async () => {
+    const { match } = this.props;
+    const product = await getDetail(match.params.id);
+
+    this.setState({ produto: product });
+  };
 
   render() {
     const { produto, productList, didSearch } = this.state;
@@ -85,8 +90,14 @@ class ProductsListPage extends React.Component {
         { !didSearch
           ? <p>Nenhum produto foi encontrado</p>
           : productList.map(({ title, price, thumbnail, id }) => (
-            <div key={ id }>
-              <img src={ thumbnail } alt="imagem do produto" data-testid="product" />
+            <div showDetail={ this.showDetail } key={ id }>
+              <Link to={ `/card/:${id}` }>
+                <img
+                  src={ thumbnail }
+                  alt="imagem do produto"
+                  data-testid="product"
+                />
+              </Link>
               <p>{ title }</p>
               <p>{ price }</p>
             </div>
@@ -95,5 +106,12 @@ class ProductsListPage extends React.Component {
     );
   }
 }
+ProductsListPage.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
+};
 
 export default ProductsListPage;

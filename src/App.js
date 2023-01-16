@@ -3,6 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
 import ProductsListPage from './components/ProductsListPage';
 import Cart from './components/Cart';
+import Card from './components/Card';
 
 function App() {
   return (
@@ -16,6 +17,11 @@ function App() {
         exact
         path="/shoppingCart"
         component={ Cart }
+      />
+      <Route
+        exact
+        path="/card/:id"
+        component={ Card }
       />
 
     </BrowserRouter>
