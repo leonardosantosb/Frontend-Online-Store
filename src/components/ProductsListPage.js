@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import Categories from './Categories';
+import PropTypes from 'prop-types';
+
 
 class ProductsListPage extends React.Component {
   constructor(props) {
@@ -50,7 +52,7 @@ class ProductsListPage extends React.Component {
   showDetail = async () => {
     const { match } = this.props;
     const product = await getDetail(match.params.id);
-
+    console.log(product);
     this.setState({ produto: product });
   };
 
