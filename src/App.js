@@ -16,7 +16,7 @@ function App() {
       <Route
         exact
         path="/shoppingCart"
-        component={ Cart }
+        render={ (props) => <Cart { ...props } /> }
       />
       <Route
         exact
