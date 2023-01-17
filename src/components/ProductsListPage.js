@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import Categories from './Categories';
+import { addCart, getCartProducts } from '../services/addToCart';
 
 class ProductsListPage extends React.Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class ProductsListPage extends React.Component {
       produto: '',
       productList: [],
       didSearch: false,
+      cart: [],
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -44,8 +46,28 @@ class ProductsListPage extends React.Component {
     });
   }
 
+  addToCart = async (e, productId) => {
+    const { productList } = this.state;
+    const cartProduct = productList.find((product) => product.id === productId);
+    await addCart(cartProduct);
+    const prod = await this.readProductCart();
+    this.setState({
+      cart: prod,
+    });
+    console.log(this.state);
+    console.log(prod);
+  };
+
+  readProductCart = async () => {
+    const readSavedProducts = await getCartProducts();
+    return readSavedProducts.map(({
+      id,
+    }) => id);
+  };
+
   render() {
-    const { produto, productList, didSearch } = this.state;
+    const { produto, productList, didSearch, cart } = this.state;
+    console.log(this.state);
     return (
       <div>
         <h3
@@ -79,9 +101,17 @@ class ProductsListPage extends React.Component {
         <Categories getCategoryId={ this.getCategoryId } />
         { !didSearch
           ? <p>Nenhum produto foi encontrado</p>
-          : productList.map(({ title, price, thumbnail, id }) => (
+          : productList.map(({ title, price, thumbnail, id, available_quantity }) => (
             <div key={ id }>
-              <Link data-testid="product-detail-link" to={ `/card/${id}` }>
+              <Link
+                data-testid="product-detail-link"
+                to={ {
+                  pathname: `/card/${id}`,
+                  state: {
+                    productId: id,
+                  },
+                } }
+              >
                 <img
                   src={ thumbnail }
                   alt="imagem do produto"
@@ -89,7 +119,29 @@ class ProductsListPage extends React.Component {
                 />
               </Link>
               <p>{ title }</p>
-              <p>{ price }</p>
+              <p>{`Preço: ${price}`}</p>
+              <p>{` Quantidade: ${available_quantity}`}</p>
+              <Link
+                data-testid="shopping-cart-button"
+                to={ {
+                  pathname: '/shoppingCart',
+                  state: {
+                    name: title,
+                    image: thumbnail,
+                    preço: price,
+                    productId: id,
+                    quantidade: available_quantity,
+                    carrinho: cart,
+                  },
+                } }
+              >
+                <button
+                  type="button"
+                  onClick={ (e) => this.addToCart(e, id) }
+                >
+                  Adicionar ao carrinho
+                </button>
+              </Link>
             </div>
           ))}
       </div>

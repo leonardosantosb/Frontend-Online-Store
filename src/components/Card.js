@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+// import { Link, useLocation, useParams } from 'react-router-dom';
 import { getProductById } from '../services/api';
 
 class Card extends Component {
@@ -10,7 +10,8 @@ class Card extends Component {
       name: '',
       image: '',
       preço: 0,
-
+      productId: 0,
+      cart: [],
     };
   }
 
@@ -18,22 +19,46 @@ class Card extends Component {
     const { match: { params: { id } } } = this.props;
     const product = await getProductById(id);
     const { title, price, thumbnail } = product;
+    console.log(product);
     this.setState({
       name: title,
       image: thumbnail,
       preço: price,
+      productId: id,
     });
+    console.log(this.state);
+  }
+
+  componentDidUpdate() {
+    console.log(this.state);
   }
 
   render() {
-    const { name, image, preço } = this.state;
+    const { name, image, preço, productId, cart } = this.state;
     return (
-      <div>
+      <div key={ productId }>
         <h1 data-testid="product-detail-name">{ name }</h1>
         <img data-testid="product-detail-image" alt="imagem do produto" src={ image } />
         <h2 data-testid="product-detail-price">{ `R$${preço}` }</h2>
-        <button type="button">
-          <Link data-testid="shopping-cart-button" to="/shoppingCart">Carrinho</Link>
+        <h3>{`Quantidade: ${cart.length}`}</h3>
+        <button
+          type="button"
+        >
+          {/* <Link
+            data-testid="shopping-cart-button"
+            to={ {
+              pathname: '/shoppingCart',
+              state: {
+                title: name,
+                thumbnail: image,
+                price: preço,
+                id: productId,
+                quantidade: cart.length,
+              },
+            } }
+          >
+          </Link> */}
+          Adicionar ao carrinho
         </button>
       </div>
 
