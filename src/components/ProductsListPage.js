@@ -90,6 +90,10 @@ class ProductsListPage extends React.Component {
               </Link>
               <p>{ title }</p>
               <p>{ price }</p>
+              <button
+              >
+                
+              </button>
             </div>
           ))}
       </div>
