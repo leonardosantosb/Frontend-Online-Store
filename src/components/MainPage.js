@@ -1,7 +1,10 @@
+/* eslint-disable no-lone-blocks */
 // route: "/"
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
+import ProductCard from './ProductCard';
 
 class MainPage extends React.Component {
   constructor(props) {
@@ -53,6 +56,7 @@ class MainPage extends React.Component {
 
   render() {
     const { categories, product, fetchResult, didSearch } = this.state;
+    const { history } = this.props;
     return (
       <div>
         <h3
@@ -105,19 +109,48 @@ class MainPage extends React.Component {
             thumbnail,
             id },
         ) => (
-          <div key={ id }>
-            <img
-              src={ thumbnail }
-              alt="product"
-              data-testid="product"
-            />
-            <p>{ title }</p>
-            <p>{`Preço: R$ ${price}`}</p>
-          </div>
+          <ProductCard
+            key={ id }
+            id={ id }
+            price={ price }
+            title={ title }
+            thumbnail={ thumbnail }
+            router={ history }
+          />
         )) : <h1>Nenhum produto foi encontrado</h1>}
       </div>
     );
   }
 }
+
+MainPage.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
+{ /* <div key={ id }>
+            <Link
+              data-testid="product-detail-link"
+              to={ {
+                pathname: `/details/${id}`,
+                state: {
+                  productId: id,
+                },
+              } }
+            >
+              <img
+                src={ thumbnail }
+                alt="imagem do produto"
+                data-testid="product"
+              />
+            </Link>
+            <p>{ title }</p>
+            <p>{`Preço: R$ ${price}`}</p>
+          </div> */ }
 
 export default MainPage;
