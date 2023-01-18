@@ -1,6 +1,6 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 // "/shoppingCart"
 function Cart() {
   // const { title, thumbnail, price, id, quantidade } = props;
@@ -9,26 +9,23 @@ function Cart() {
   const price = useLocation().state.preço;
   const id = useLocation().state.productId;
   const quantity = useLocation().state.quantidade;
-  const cart = useLocation().state.cartList;
-  console.log(cart);
   return (
     <div>
-      { Cart === 0
-        ? <h3
-          data-testid="shopping-cart-empty-message"
-        >
-          Seu carrinho está vazio
-        </h3>
 
-        : <div key={ id }>
-          <img
-            src={ `${thumbnail}` }
-            alt={ `Imagem de ${title}` }
-          />
-          <p data-testid="shopping-cart-product-name">{ title }</p>
-          <p>{ `Preço: ${price}` }</p>
-          <p data-testid="shopping-cart-product-quantity">{`Quantidade: ${quantity}`}</p>
-        </div>}
+      <h3
+        data-testid="shopping-cart-empty-message"
+      >
+        Seu carrinho está vazio
+      </h3>
+      <div key={ id }>
+        <img
+          src={ `${thumbnail}` }
+          alt={ `Imagem de ${title}` }
+        />
+        <p data-testid="shopping-cart-product-name">{ title }</p>
+        <p>{ `Preço: ${price}` }</p>
+        <p data-testid="shopping-cart-product-quantity">{`Quantidade: ${quantity}`}</p>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { getProductById } from '../services/api';
 
 class Card extends Component {
@@ -41,25 +41,26 @@ class Card extends Component {
         <img data-testid="product-detail-image" alt="imagem do produto" src={ image } />
         <h2 data-testid="product-detail-price">{ `R$${preço}` }</h2>
         <h3>{`Quantidade: ${cart.length}`}</h3>
-        <button
-          type="button"
+        <Link
+          to={ {
+            pathname: '/shoppingCart',
+            state: {
+              title: name,
+              thumbnail: image,
+              price: preço,
+              id: productId,
+              quantidade: cart.length,
+            },
+          } }
         >
-          {/* <Link
+          <button
+            type="button"
             data-testid="shopping-cart-button"
-            to={ {
-              pathname: '/shoppingCart',
-              state: {
-                title: name,
-                thumbnail: image,
-                price: preço,
-                id: productId,
-                quantidade: cart.length,
-              },
-            } }
           >
-          </Link> */}
-          Adicionar ao carrinho
-        </button>
+            Carrinho
+          </button>
+        </Link>
+
       </div>
 
     );

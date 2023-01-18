@@ -50,12 +50,12 @@ class ProductsListPage extends React.Component {
     const { productList } = this.state;
     const cartProduct = productList.find((product) => product.id === productId);
     await addCart(cartProduct);
-    const prod = await this.readProductCart();
-    this.setState({
-      cart: prod,
-    });
+    const cart = await this.readProductCart();
+    this.setState(({
+      cart,
+    }));
     console.log(this.state);
-    console.log(prod);
+    console.log(cart);
   };
 
   readProductCart = async () => {
@@ -66,7 +66,7 @@ class ProductsListPage extends React.Component {
   };
 
   render() {
-    const { produto, productList, didSearch, cart } = this.state;
+    const { produto, productList, didSearch } = this.state;
     console.log(this.state);
     return (
       <div>
@@ -75,12 +75,8 @@ class ProductsListPage extends React.Component {
         >
           Digite algum termo de pesquisa ou escolha uma categoria.
         </h3>
-        <Link
-          data-testid="shopping-cart-button"
-          to="/shoppingCart"
-          relative="path"
-        >
-          Cart
+        <Link to="/shoppingCart" data-testid="shopping-cart-button">
+          Carrinho
         </Link>
         <form>
           <input
@@ -120,9 +116,8 @@ class ProductsListPage extends React.Component {
               </Link>
               <p>{ title }</p>
               <p>{`Preço: ${price}`}</p>
-              <p>{` Quantidade: ${available_quantity}`}</p>
+              <p>{` Estoque: ${available_quantity}`}</p>
               <Link
-                data-testid="shopping-cart-button"
                 to={ {
                   pathname: '/shoppingCart',
                   state: {
@@ -131,12 +126,12 @@ class ProductsListPage extends React.Component {
                     preço: price,
                     productId: id,
                     quantidade: available_quantity,
-                    carrinho: cart,
                   },
                 } }
               >
                 <button
                   type="button"
+                  data-testid="product-add-to-cart"
                   onClick={ (e) => this.addToCart(e, id) }
                 >
                   Adicionar ao carrinho
