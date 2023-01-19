@@ -4,6 +4,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
+import { addCart } from '../services/addToCart';
+
 import ProductCard from './ProductCard';
 
 class MainPage extends React.Component {
@@ -21,9 +23,9 @@ class MainPage extends React.Component {
   }
 
   async componentDidMount() {
-    const categoriesList = await getCategories();
+    const categories = await getCategories();
     this.setState({
-      categories: categoriesList,
+      categories,
     });
   }
 
@@ -53,6 +55,12 @@ class MainPage extends React.Component {
       didSearch: true,
     });
   }
+
+  addToCart = async (e, productId) => {
+    const { fetchResult } = this.state;
+    const cartProductFound = fetchResult.find((product) => product.id === productId);
+    addCart(cartProductFound);
+  };
 
   render() {
     const { categories, product, fetchResult, didSearch } = this.state;
@@ -116,6 +124,7 @@ class MainPage extends React.Component {
             title={ title }
             thumbnail={ thumbnail }
             router={ history }
+            addToCart={ this.addToCart }
           />
         )) : <h1>Nenhum produto foi encontrado</h1>}
       </div>
@@ -132,25 +141,14 @@ MainPage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  location: PropTypes.shape({
+    state: PropTypes.shape({
+      id: PropTypes.string,
+      price: PropTypes.number,
+      thumbnail: PropTypes.string,
+      title: PropTypes.string,
+    }),
+  }).isRequired,
 };
-{ /* <div key={ id }>
-            <Link
-              data-testid="product-detail-link"
-              to={ {
-                pathname: `/details/${id}`,
-                state: {
-                  productId: id,
-                },
-              } }
-            >
-              <img
-                src={ thumbnail }
-                alt="imagem do produto"
-                data-testid="product"
-              />
-            </Link>
-            <p>{ title }</p>
-            <p>{`Preço: R$ ${price}`}</p>
-          </div> */ }
 
 export default MainPage;
